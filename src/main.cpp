@@ -27,18 +27,18 @@ const char *msg = R"===(
 
 void onMessageProvisioning(const jsprMessageProvisioning_t *mp) {
   if (mp && mp->provisioningSet) {
-    loginfo_ln("Provisioned for %d topics\n", mp->topicCount);
+    loginfo_ln("Provisioned for %d topics", mp->topicCount);
     for (int i = 0; i < mp->topicCount; i++) {
-      loginfo_ln("  [%d] %s (ID %d)\n", i, mp->provisioning[i].topicName, mp->provisioning[i].topicId);
+      loginfo_ln("  [%d] %s (ID %d)", i, mp->provisioning[i].topicName, mp->provisioning[i].topicId);
     }
   }
 }
 
 void onMoComplete(const uint16_t id, const rbMsgStatus_t status) {
-  loginfo_ln("MO Complete: ID=%d Status=%d\n", id, (int)status);
+  loginfo_ln("MO Complete: ID=%d Status=%d", id, (int)status);
   if (status == RB_MSG_STATUS_OK) {
     messagesSent++;
-    loginfo_ln("SUCCESS: Message %d sent!\n", messagesSent);
+    loginfo_ln("SUCCESS: Message %d sent!", messagesSent);
     messagePending = false;  // Ready for next message
   } else {
     loginfo_ln("Send failed — will retry in 60s");
@@ -47,12 +47,12 @@ void onMoComplete(const uint16_t id, const rbMsgStatus_t status) {
 }
 
 void onMtComplete(const uint16_t id, const rbMsgStatus_t status) {
-  loginfo_ln("MT: ID=%d Status=%d\n", id, (int)status);
+  loginfo_ln("MT: ID=%d Status=%d", id, (int)status);
 }
 
 void onConstellationState(const jsprConstellationState_t *state) {
   if (state) {
-    loginfo_ln("Signal: %d/5 bars\n", state->signalBars);
+    loginfo_ln("Signal: %d/5 bars", state->signalBars);
   }
 }
 
