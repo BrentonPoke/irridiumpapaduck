@@ -107,12 +107,12 @@ void handleDuckData(CdpPacket packetBuffer) {
   JsonDocument doc, innerpayload;
   doc["PapaId"] = "ROCKBOCK";
   doc["EventType"] = "sensor";
-  innerpayload["DeviceID"] = "SatDuck";
-  innerpayload["MessageID"] = "0001";
+  innerpayload["DeviceID"] = duckutils::toString(packetBuffer.sduid);
+  innerpayload["MessageID"] = duckutils::toString(packetBuffer.muid);
   innerpayload["C"] = distrib(gen);
   innerpayload["FM"] = fm_distrib(gen);
-  innerpayload["hops"] = hops(gen);
-  innerpayload["duckType"] = 1;
+  innerpayload["hops"] = packetBuffer.hopCount;
+  innerpayload["duckType"] = packetBuffer.duckType;
   doc["InnerPayload"] = innerpayload;
 
   serializeJson(doc, payload);
