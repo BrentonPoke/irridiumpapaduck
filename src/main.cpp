@@ -15,16 +15,6 @@ PapaDuck duck("PAPADUCK");
 const char* ntpServer = "pool.ntp.org";
 void handleDuckData(CdpPacket packetBuffer);
 std::mt19937 gen;
-std::uniform_int_distribution<> distrib(0, 40), hops(1, 5);
-std::uniform_real_distribution<float> fm_distrib(10.0, 130.0);
-//const char *msg = "{\"DeviceID\":\"SatDuck\",\"MessageID\":\"0001\",\"C:1|FM:123456\",\"hops\":1,\"duckType\":1}";
-
-// const char *msg = R"===(
-//                     {
-//                     "PapaId": "ROCKBOCK",
-//                    "EventType": "sensor",
-//                     "InnerPayload": {\"DeviceID\":\"SatDuck\",\"MessageID\":\"0001\",\"C:1|FM:123456\",\"hops\":1,\"duckType\":1}
-//                     })===";
 
 static std::string payload;
 
