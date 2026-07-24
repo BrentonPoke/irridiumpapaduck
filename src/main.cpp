@@ -105,72 +105,30 @@ void handleDuckData(CdpPacket packetBuffer) {
   //randomly generate values for packet
 
   JsonDocument doc, innerpayload;
-  doc["PapaId"] = "ROCKBOCK";
-  doc["EventType"] = "sensor";
-  innerpayload["DeviceID"] = duckutils::toString(packetBuffer.sduid);
-  innerpayload["MessageID"] = duckutils::toString(packetBuffer.muid);
-  innerpayload["C"] = distrib(gen);
-  innerpayload["FM"] = fm_distrib(gen);
-  innerpayload["hops"] = packetBuffer.hopCount;
-  innerpayload["duckType"] = packetBuffer.duckType;
-  doc["InnerPayload"] = innerpayload;
+  deserializeJson(innerpayload, packetBuffer.data);
+  doc["PapaId"] = "PAPADUCK";
+  doc["Topic"] = packetBuffer.topic;
+  doc["DeviceID"] = duckutils::toString(packetBuffer.sduid);
+  doc["MessageID"] = duckutils::toString(packetBuffer.muid);
+  doc["Data"] = innerpayload;
+  doc["hops"] = packetBuffer.hopCount;
+  doc["duckType"] = packetBuffer.duckType;
 
   serializeJson(doc, payload);
   logdbg_ln("Payload: %s", payload.c_str());
-
-  if (!messagePending && (millis() - lastSendAttempt > SEND_INTERVAL)) {
-    lastSendAttempt = millis();
-    messagePending = true;
 
     loginfo_ln("Attempting to queue message... ");
     if (rbSendMessageAsync(244, payload.c_str(), payload.size())) {
       loginfo_ln("QUEUED!");
     } else {
-      loginfo_ln("Queue failed — will retry in 60s");
-      messagePending = false;  // Allow retry
+      logerr_ln("Queue failed"); // Allow retry
     }
-  }
 
 }
 
 void loop() {
   rbPoll();  // **CRITICAL** — must be called often
   delay(10);
-  // ONLY TRY TO SEND IF:
-  // 1. No message is pending
-  // 2. At least 60 seconds since last attempt
-  // 3. We have signal (>=2 bars) — we'll check via callback
-
-  payload.clear();
-  //randomly generate values for packet
-
-
-  JsonDocument doc, innerpayload;
-  doc["PapaId"] = "ROCKBOCK";
-  doc["EventType"] = "sensor";
-  innerpayload["DeviceID"] = "SatDuck";
-  innerpayload["MessageID"] = "0001";
-  innerpayload["C"] = distrib(gen);
-  innerpayload["FM"] = fm_distrib(gen);
-  innerpayload["hops"] = hops(gen);
-  innerpayload["duckType"] = 1;
-  doc["InnerPayload"] = innerpayload;
-
-  serializeJson(doc, payload);
-  logdbg_ln("Payload: %s", payload.c_str());
-
-  if (!messagePending && (millis() - lastSendAttempt > SEND_INTERVAL)) {
-    lastSendAttempt = millis();
-    messagePending = true;
-
-    loginfo_ln("Attempting to queue message... ");
-    if (rbSendMessageAsync(244, payload.c_str(), payload.size())) {
-      loginfo_ln("QUEUED!");
-    } else {
-      loginfo_ln("Queue failed — will retry in 60s");
-      messagePending = false;  // Allow retry
-    }
-  }
 
 duck.run();
   // Auto-shutdown after success (optional)
