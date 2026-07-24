@@ -108,7 +108,7 @@ void handleDuckData(CdpPacket packetBuffer) {
   logdbg_ln("Payload: %s", payload.c_str());
 
     loginfo_ln("Attempting to queue message... ");
-    if (rbSendMessageAsync(244, payload.c_str(), payload.size())) {
+    if (rbSendMessageAsync(244, payload.c_str(), strlen(payload.c_str()))) {
       loginfo_ln("QUEUED!");
     } else {
       logerr_ln("Queue failed"); // Allow retry
