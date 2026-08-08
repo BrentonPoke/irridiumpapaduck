@@ -86,7 +86,7 @@ void setup() {
     loginfo_ln("CONNECTED!");
     rbRegisterCallbacks(&myCallbacks);
   } else {
-    loginfo_ln("rbBegin FAILED");
+    logerr_ln("rbBegin FAILED");
     while (1);
   }
 }
