@@ -28,7 +28,7 @@ void onMessageProvisioning(const jsprMessageProvisioning_t *mp) {
 }
 
 void onMoComplete(const uint16_t id, const rbMsgStatus_t status) {
-  loginfo_ln("MO Complete: ID=%d Status=%d", id, (int)status);
+  loginfo_ln("MO Complete: ID=%d Status=%d", id, static_cast<int>(status));
   if (status == RB_MSG_STATUS_OK) {
     messagesSent++;
     loginfo_ln("SUCCESS: Message %d sent!", messagesSent);
@@ -40,7 +40,7 @@ void onMoComplete(const uint16_t id, const rbMsgStatus_t status) {
 }
 
 void onMtComplete(const uint16_t id, const rbMsgStatus_t status) {
-  loginfo_ln("MT: ID=%d Status=%d", id, (int)status);
+  loginfo_ln("MT: ID=%d Status=%d", id, static_cast<int>(status));
 }
 
 void onConstellationState(const jsprConstellationState_t *state) {
