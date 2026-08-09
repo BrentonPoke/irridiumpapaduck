@@ -105,7 +105,7 @@ void handleDuckData(CdpPacket packetBuffer) {
   doc["duckType"] = packetBuffer.duckType;
 
   serializeJson(doc, payload);
-  logdbg_ln("Payload: %s", payload.c_str());
+  logdbg_ln("Payload: %s", payload);
 
     loginfo_ln("Attempting to queue message... ");
     if (rbSendMessageAsync(244, payload.c_str(), strlen(payload.c_str()))) {
