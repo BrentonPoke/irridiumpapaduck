@@ -97,10 +97,10 @@ void handleDuckData(CdpPacket packetBuffer) {
   JsonDocument doc, innerpayload;
   deserializeJson(innerpayload, packetBuffer.data);
   doc["PapaId"] = "PAPADUCK";
-  doc["Topic"] = packetBuffer.topic;
+  doc["EventType"] = packetBuffer.topic;
   doc["DeviceID"] = duckutils::toString(packetBuffer.sduid);
   doc["MessageID"] = duckutils::toString(packetBuffer.muid);
-  doc["Data"] = innerpayload;
+  doc["Payload"] = innerpayload;
   doc["hops"] = packetBuffer.hopCount;
   doc["duckType"] = packetBuffer.duckType;
 
