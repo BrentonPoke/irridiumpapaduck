@@ -94,18 +94,18 @@ void handleDuckData(CdpPacket packetBuffer) {
   payload.clear();
   //randomly generate values for packet
 
-  JsonDocument doc, innerpayload;
-  deserializeJson(innerpayload, packetBuffer.data);
+  JsonDocument doc, packet;
+  deserializeJson(packet, packetBuffer.data);
   doc["PapaId"] = "PAPADUCK";
-  doc["EventType"] = packetBuffer.topic;
-  doc["DeviceID"] = duckutils::toString(packetBuffer.sduid);
-  doc["MessageID"] = duckutils::toString(packetBuffer.muid);
-  doc["Payload"] = innerpayload;
-  doc["hops"] = packetBuffer.hopCount;
-  doc["duckType"] = packetBuffer.duckType;
+  doc["EventType"] = packetBuffer.topicToString();
+  doc["InnerPayload"]["DeviceID"] = duckutils::toString(packetBuffer.sduid);
+  doc["InnerPayload"]["MessageID"] = duckutils::toString(packetBuffer.muid);
+  doc["InnerPayload"]["Packet"] = packet;
+  doc["InnerPayload"]["hops"] = packetBuffer.hopCount;
+  doc["InnerPayload"]["duckType"] = packetBuffer.duckType;
 
   serializeJson(doc, payload);
-  logdbg_ln("Payload: %s", payload);
+  logdbg_ln("Payload: %s",payload);
 
     loginfo_ln("Attempting to queue message... ");
     if (rbSendMessageAsync(244, payload.c_str(), strlen(payload.c_str()))) {
