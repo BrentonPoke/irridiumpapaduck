@@ -100,7 +100,7 @@ void handleDuckData(CdpPacket packetBuffer) {
   doc["EventType"] = packetBuffer.topicToString();
   doc["InnerPayload"]["DeviceID"] = duckutils::toString(packetBuffer.sduid);
   doc["InnerPayload"]["MessageID"] = duckutils::toString(packetBuffer.muid);
-  doc["InnerPayload"]["Packet"] = packet;
+  doc["InnerPayload"]["Payload"] = packet;
   doc["InnerPayload"]["hops"] = packetBuffer.hopCount;
   doc["InnerPayload"]["duckType"] = packetBuffer.duckType;
 
